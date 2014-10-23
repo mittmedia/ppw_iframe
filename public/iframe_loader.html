@@ -1,0 +1,64 @@
+<script>
+  (function() {
+
+    var params = decodeURIComponent(window.location.search.slice(1))
+                  .split('&')
+                  .reduce(function _reduce (a, b) {
+                    b = b.split('=');
+                    a[b[0]] = b[1];
+                    return a;
+                  }, {});
+
+    if(!params['url']) {
+      console.log("You have to pass the url parameter");
+      return;
+    }
+
+    iframeFixer = {
+      load: function(url) {
+        var ajaxRequest, startTime;
+        ajaxRequest = this.getRequestType();
+        ajaxRequest.onreadystatechange = (function(_this) {
+          return function() {
+            if (ajaxRequest.readyState === 4) {
+              document.open();
+              document.write(ajaxRequest.responseText);
+              document.close();
+            }
+          };
+        })(this);
+        setTimeout((function() {
+          ajaxRequest.open("GET", url, true);
+          return ajaxRequest.send(null);
+        }), 0);
+      },
+      getRequestType: function() {
+        var e;
+        try {
+          return new XMLHttpRequest();
+        } catch (_error) {}
+        try {
+          return new window.XDomainRequest();
+        } catch (_error) {}
+        try {
+          return new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (_error) {}
+        try {
+          return new ActiveXObject("Microsoft.XMLHTTP");
+        } catch (_error) {
+          e = _error;
+          return false;
+        }
+      }
+    };
+
+    var run = function() {
+      iframeFixer.load(params['url']);
+    }
+
+    window.onload = function() {
+      run();
+    }
+
+  })();
+</script>
