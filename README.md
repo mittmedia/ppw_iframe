@@ -5,3 +5,6 @@
 Applikationen består utav statiska HTML-sidor som bäddar in en del utav **print_ads** appen.
 
 Här är den live:  http://mm-ppw-iframe.herokuapp.com/pages/stnu.html
+
+## Mer info
+Mer information om PPW-systemet finns här: https://mittmedia.atlassian.net/wiki/display/SYS/PPW
